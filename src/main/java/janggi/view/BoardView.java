@@ -9,10 +9,11 @@ import java.util.Map;
 
 public class BoardView {
 
+    public static final String GREY_COLOR_CODE = "\u001B[37m";
     public static final String EXIT_COLOR_CODE = "\u001B[0m";
     private static final int ROW_SIZE = 10;
     private static final int COLUMN_SIZE = 9;
-    private static final String EMPTY_CELL = "\u001B[30mㅁ\u001B[0m";
+    private static final String EMPTY_CELL = "\u001B[30m" + (char) 0x3000 + "\u001B[0m";
 
     private final String[][] matrix = new String[ROW_SIZE][COLUMN_SIZE];
 
@@ -44,26 +45,6 @@ public class BoardView {
         System.out.println(buildColumnHeaders());
     }
 
-    private String buildRow(int row) {
-        StringBuilder rowBuilder = new StringBuilder();
-        rowBuilder.append(
-            String.format(" %2s |", "\u001B[37m" + toFullWidthNumber(row) + "\u001B[0m"));
-        for (String token : matrix[row]) {
-            rowBuilder.append(String.format(" %2s ", token));
-        }
-        return rowBuilder.toString();
-    }
-
-    private String buildColumnHeaders() {
-        StringBuilder headerBuilder = new StringBuilder();
-        headerBuilder.append(" ㅁ |");
-        for (int column = 0; column < COLUMN_SIZE; column++) {
-            headerBuilder.append(
-                String.format(" %2s ", "\u001B[37m" + toFullWidthNumber(column) + "\u001B[0m"));
-        }
-        return headerBuilder.toString();
-    }
-
     private void clearBoard() {
         for (String[] row : matrix) {
             Arrays.fill(row, EMPTY_CELL);
@@ -82,11 +63,32 @@ public class BoardView {
         return piece.getTeam().getColorCode() + piece.getName() + EXIT_COLOR_CODE;
     }
 
+    private String buildRow(int row) {
+        StringBuilder rowBuilder = new StringBuilder();
+        rowBuilder.append(
+            String.format(" %2s |", GREY_COLOR_CODE + toFullWidthNumber(row) + EXIT_COLOR_CODE));
+        for (String token : matrix[row]) {
+            rowBuilder.append(String.format(" %2s ", token));
+        }
+        return rowBuilder.toString();
+    }
+
+    private String buildColumnHeaders() {
+        StringBuilder headerBuilder = new StringBuilder();
+        headerBuilder.append(" " + EMPTY_CELL + " |");
+        for (int column = 0; column < COLUMN_SIZE; column++) {
+            headerBuilder.append(
+                String.format(" %2s ",
+                    GREY_COLOR_CODE + toFullWidthNumber(column) + EXIT_COLOR_CODE));
+        }
+        return headerBuilder.toString();
+    }
+
     private String toFullWidthNumber(int number) {
         String numberStr = String.valueOf(number);
         StringBuilder sb = new StringBuilder();
         for (char c : numberStr.toCharArray()) {
-            sb.append(Character.isDigit(c) ? (char) (c - '0' + '\uFF10') : c);
+            sb.append((char) (c - '0' + '０'));
         }
         return sb.toString();
     }
