@@ -22,6 +22,10 @@ public class PointDistance {
         return this.distance == distance;
     }
 
+    public boolean isLessAndEqualTo(double distance) {
+        return this.distance <= distance;
+    }
+
     public double getDistance() {
         return distance;
     }

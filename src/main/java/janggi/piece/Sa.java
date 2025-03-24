@@ -21,7 +21,7 @@ public class Sa implements Movable {
     public boolean isInMovingRange(Point startPoint, Point targetPoint) {
         PointDistance distance = PointDistance.calculate(startPoint, targetPoint);
 
-        return distance.isSameWith(MOVE_DISTANCE);
+        return distance.isLessAndEqualTo(MOVE_DISTANCE);
     }
 
     @Override

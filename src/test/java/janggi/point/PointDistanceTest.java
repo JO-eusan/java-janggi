@@ -54,5 +54,21 @@ public class PointDistanceTest {
 
             assertThat(distance.isSameWith(2)).isFalse();
         }
+
+        @Test
+        @DisplayName("거리가 전달받은 값 이하면 true를 반환한다.")
+        void compareLessAndEqualToDistance() {
+            PointDistance distance = new PointDistance(1);
+
+            assertThat(distance.isLessAndEqualTo(Math.sqrt(2))).isTrue();
+        }
+
+        @Test
+        @DisplayName("거리가 전달받은 값 이상이면 false를 반환한다.")
+        void compareBiggerThanDistance() {
+            PointDistance distance = new PointDistance(2);
+
+            assertThat(distance.isLessAndEqualTo(Math.sqrt(2))).isFalse();
+        }
     }
 }

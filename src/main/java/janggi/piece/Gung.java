@@ -9,7 +9,7 @@ import java.util.List;
 public class Gung implements Movable {
 
     private static final String NAME = "궁";
-    private static final double MOVE_DISTANCE = 1;
+    private static final double MOVE_DISTANCE = Math.sqrt(2);
 
     private final Team team;
 
@@ -21,7 +21,7 @@ public class Gung implements Movable {
     public boolean isInMovingRange(Point startPoint, Point targetPoint) {
         PointDistance distance = PointDistance.calculate(startPoint, targetPoint);
 
-        return distance.isSameWith(MOVE_DISTANCE);
+        return distance.isLessAndEqualTo(MOVE_DISTANCE);
     }
 
     @Override
