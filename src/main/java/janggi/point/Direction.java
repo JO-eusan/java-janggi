@@ -11,8 +11,7 @@ public enum Direction {
     NORTH_WEST(-1, -1),
     NORTH_EAST(-1, 1),
     SOUTH_WEST(1, -1),
-    SOUTH_EAST(1, 1),
-    DEFAULT(0, 0);
+    SOUTH_EAST(1, 1);
 
     private final int rowDistance;
     private final int columnDistance;
@@ -35,7 +34,7 @@ public enum Direction {
         if (startPoint.isSameColumn(targetPoint) && startPoint.isRowLessThan(targetPoint)) {
             return SOUTH;
         }
-        throw new IllegalArgumentException("상하좌우로만으로는 경로를 찾을 수 없습니다.");
+        throw new IllegalArgumentException("경로를 찾을 수 없습니다.");
     }
 
     public static List<Direction> complexFrom(Point startPoint, Point targetPoint,
