@@ -12,6 +12,7 @@ public class BoardView {
     public static final String GREY_COLOR_CODE = "\u001B[37m";
     public static final String EXIT_COLOR_CODE = "\u001B[0m";
     private static final String EMPTY_CELL = "\u001B[30m" + (char) 0x3000 + "\u001B[0m";
+    private static final String PALACE_CELL = "\u001B[33m" + (char) 0xFF30 + "\u001B[0m";
     private static final int ROW_SIZE = 10;
     private static final int COLUMN_SIZE = 9;
 
@@ -23,7 +24,7 @@ public class BoardView {
 
     public void printTeam(Team team) {
         System.out.println();
-        System.out.printf("%s의 차례입니다.%n", team.getText());
+        System.out.printf("%s의 차례입니다.%n", team.getColorCode() + team.getText() + EXIT_COLOR_CODE);
     }
 
     public void printMovingResult(Board board, Point startPoint, Point targetPoint) {
@@ -48,6 +49,19 @@ public class BoardView {
     private void clearBoard() {
         for (String[] row : matrix) {
             Arrays.fill(row, EMPTY_CELL);
+        }
+
+        markPalaceBorder(0, 3);
+        markPalaceBorder(7, 3);
+    }
+
+    private void markPalaceBorder(int startRow, int startColumn) {
+        for (int row = startRow; row < startRow + 3; row++) {
+            for (int col = startColumn; col < startColumn + 3; col++) {
+                if (row == startRow || row == startRow + 2 || col == startColumn || col == startColumn + 2) {
+                    matrix[row][col] = PALACE_CELL;
+                }
+            }
         }
     }
 
