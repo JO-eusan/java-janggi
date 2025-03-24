@@ -3,8 +3,12 @@ package janggi.game;
 import janggi.point.Point;
 import janggi.view.BoardView;
 import janggi.view.InputView;
+import java.util.List;
 
 public class JanggiApplication {
+
+    private static final String WINNING_DECISION_TARGET = "궁";
+    private static final int WINNING_DECISION_TARGET_COUNT = 2;
 
     private final InputView inputView;
     private final BoardView boardView;
@@ -16,27 +20,34 @@ public class JanggiApplication {
 
     public static void main(String[] args) {
         JanggiApplication janggiApplication = new JanggiApplication();
-        janggiApplication.run();
+        janggiApplication.startGame();
     }
 
-    private void run() {
-        Board board = Board.putPiecesInPoint(Team.CHO);
-
-        do {
+    private void startGame() {
+        if (inputView.readGameStart()) {
+            Board board = Board.putPiecesOnPoint(Team.CHO);
             boardView.displayBoard(board);
+
+            processGame(board);
+        }
+    }
+
+    private void processGame(Board board) {
+        do {
             boardView.printTeam(board.getTurn());
 
             handleMoveException(() -> {
-                Point startPoint = inputView.readStartPoint();
-                boardView.printSelectedPiece(board.findPieceByPoint(startPoint));
+                List<Point> startAndTargetPoint = inputView.readStartAndTargetPoint();
+                Point startPoint = startAndTargetPoint.getFirst();
+                Point targetPoint = startAndTargetPoint.getLast();
 
-                Point targetPoint = inputView.readTargetPoint();
                 board.move(startPoint, targetPoint);
+                boardView.printMovingResult(board, startPoint, targetPoint);
+                boardView.displayBoard(board);
 
-                boardView.printMovingResult(startPoint, targetPoint);
                 board.reverseTurn();
             });
-        } while (inputView.readGameStart());
+        } while (board.countPieces(WINNING_DECISION_TARGET) == WINNING_DECISION_TARGET_COUNT);
     }
 
     private void handleMoveException(Runnable action) {

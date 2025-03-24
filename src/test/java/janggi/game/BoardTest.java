@@ -24,7 +24,7 @@ public class BoardTest {
         @Test
         @DisplayName("32개의 기물을 가진 장기판을 생성할 수 있다.")
         void createBoardWithPieces() {
-            Board board = Board.putPiecesInPoint(Team.CHO);
+            Board board = Board.putPiecesOnPoint(Team.CHO);
 
             assertThat(board.getRunningPieces()).hasSize(32);
         }
@@ -32,7 +32,7 @@ public class BoardTest {
         @Test
         @DisplayName("시작 팀을 지정하여 장기판을 생성할 수 있다.")
         void createBoardWithStartTeam() {
-            Board board = Board.putPiecesInPoint(Team.CHO);
+            Board board = Board.putPiecesOnPoint(Team.CHO);
 
             assertThat(board.getTurn()).isEqualTo(Team.CHO);
         }
@@ -40,7 +40,7 @@ public class BoardTest {
         @Test
         @DisplayName("팀을 변경할 수 있다.")
         void changeTeam() {
-            Board board = Board.putPiecesInPoint(Team.CHO);
+            Board board = Board.putPiecesOnPoint(Team.CHO);
 
             board.reverseTurn();
 

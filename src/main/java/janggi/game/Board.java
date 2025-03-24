@@ -16,13 +16,19 @@ public class Board {
         this.turn = startTeam;
     }
 
-    public static Board putPiecesInPoint(Team startTeam) {
+    public static Board putPiecesOnPoint(Team startTeam) {
         Map<Point, Movable> runningPieces = InitialPieces.getAllPieces();
         return new Board(runningPieces, startTeam);
     }
 
     public void reverseTurn() {
         this.turn = turn.reverse();
+    }
+
+    public int countPieces(String pieceName) {
+        return (int) runningPieces.values().stream()
+            .filter(piece -> pieceName.equals(piece.getName()))
+            .count();
     }
 
     public Movable findPieceByPoint(Point point) {

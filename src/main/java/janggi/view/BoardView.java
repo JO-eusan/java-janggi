@@ -11,9 +11,9 @@ public class BoardView {
 
     public static final String GREY_COLOR_CODE = "\u001B[37m";
     public static final String EXIT_COLOR_CODE = "\u001B[0m";
+    private static final String EMPTY_CELL = "\u001B[30m" + (char) 0x3000 + "\u001B[0m";
     private static final int ROW_SIZE = 10;
     private static final int COLUMN_SIZE = 9;
-    private static final String EMPTY_CELL = "\u001B[30m" + (char) 0x3000 + "\u001B[0m";
 
     private final String[][] matrix = new String[ROW_SIZE][COLUMN_SIZE];
 
@@ -25,12 +25,11 @@ public class BoardView {
         System.out.printf("%s의 차례입니다.%n", team.getText());
     }
 
-    public void printSelectedPiece(Movable piece) {
-        System.out.printf("%s를(을) 선택했습니다.%n", piece.getName());
-    }
+    public void printMovingResult(Board board, Point startPoint, Point targetPoint) {
+        Movable piece = board.findPieceByPoint(targetPoint);
 
-    public void printMovingResult(Point startPoint, Point targetPoint) {
-        System.out.printf("(%d, %d) -> (%d, %d)로 이동했습니다.%n",
+        System.out.println();
+        System.out.printf("%s를(을) (%d, %d) -> (%d, %d)로 이동했습니다.%n", piece.getName(),
             startPoint.row(), startPoint.column(),
             targetPoint.row(), targetPoint.column());
     }
