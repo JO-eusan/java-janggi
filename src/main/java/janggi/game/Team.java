@@ -16,7 +16,10 @@ public enum Team {
         if (this == HAN) {
             return CHO;
         }
-        return HAN;
+        if (this == CHO) {
+            return HAN;
+        }
+        throw new IllegalArgumentException("제공되지 않는 팀입니다.");
     }
 
     public String getText() {
