@@ -8,6 +8,7 @@ import java.util.Set;
 
 public class Route {
 
+    private static final String NEEDED_HURDLE_PIECE = "포";
     private static final int NEEDED_HURDLE_NUMBER = 1;
 
     private final List<Point> path;
@@ -21,7 +22,7 @@ public class Route {
     public void validateRoute(Point startPoint, Board board) {
         Movable movingPiece = board.findPieceByPoint(startPoint);
 
-        if (movingPiece.getName().equals("포")) {
+        if (NEEDED_HURDLE_PIECE.equals(movingPiece.getName())) {
             checkRouteWithHurdle(startPoint, board);
             return;
         }
@@ -36,7 +37,7 @@ public class Route {
             throw new IllegalArgumentException("포는 포를 제외한 하나의 기물만 필요합니다.");
         }
         if (board.getRunningPieces().containsKey(targetPoint)
-            && board.findPieceByPoint(targetPoint).getName().equals("포")) {
+            && NEEDED_HURDLE_PIECE.equals(board.findPieceByPoint(targetPoint).getName())) {
             throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
         }
     }
@@ -60,7 +61,7 @@ public class Route {
 
     private int countJumperForPo(Board board) {
         return (int) findRouteHurdles(board.getRunningPieces().keySet()).stream()
-            .filter(point -> !board.findPieceByPoint(point).getName().equals("포"))
+            .filter(point -> !NEEDED_HURDLE_PIECE.equals(board.findPieceByPoint(point).getName()))
             .count();
     }
 
