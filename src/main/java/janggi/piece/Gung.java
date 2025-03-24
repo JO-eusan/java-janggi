@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.game.Team;
+import janggi.point.PalacePoints;
 import janggi.point.Point;
 import janggi.point.PointDistance;
 import janggi.point.Route;
@@ -21,7 +22,8 @@ public class Gung implements Movable {
     public boolean isInMovingRange(Point startPoint, Point targetPoint) {
         PointDistance distance = PointDistance.calculate(startPoint, targetPoint);
 
-        return distance.isLessAndEqualTo(MOVE_DISTANCE);
+        return distance.isLessAndEqualTo(MOVE_DISTANCE)
+            && PalacePoints.isInPalaceRange(team, targetPoint);
     }
 
     @Override
