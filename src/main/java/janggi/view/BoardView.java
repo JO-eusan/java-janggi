@@ -22,6 +22,7 @@ public class BoardView {
     }
 
     public void printTeam(Team team) {
+        System.out.println();
         System.out.printf("%s의 차례입니다.%n", team.getText());
     }
 
