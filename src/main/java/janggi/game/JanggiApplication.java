@@ -20,7 +20,7 @@ public class JanggiApplication {
     }
 
     private void run() {
-        Board board = Board.init(Team.CHO);
+        Board board = Board.putPiecesInPoint(Team.CHO);
 
         do {
             boardView.displayBoard(board);
