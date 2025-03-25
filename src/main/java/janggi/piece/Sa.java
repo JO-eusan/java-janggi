@@ -10,7 +10,8 @@ import java.util.List;
 public class Sa implements Movable {
 
     private static final String NAME = "사";
-    private static final double MOVE_DISTANCE = Math.sqrt(2);
+    private static final double CARDINAL_MOVE_DISTANCE = 1;
+    private static final double DIAGONAL_MOVE_DISTANCE = Math.sqrt(2);
 
     private final Team team;
 
@@ -22,8 +23,16 @@ public class Sa implements Movable {
     public boolean isInMovingRange(Point startPoint, Point targetPoint) {
         PointDistance distance = PointDistance.calculate(startPoint, targetPoint);
 
-        return distance.isLessAndEqualTo(MOVE_DISTANCE)
-            && PalacePoints.isInPalaceRange(team, targetPoint);
+        if (PalacePoints.isOutOfPalaceRange(team, targetPoint)) {
+            return false;
+        }
+        if (PalacePoints.isInPalaceWithMovableCardinal(team, startPoint)) {
+            return distance.isSameWith(CARDINAL_MOVE_DISTANCE);
+        }
+        if (PalacePoints.isInPalaceWithMovableDiagonal(team, startPoint)) {
+            return distance.isLessAndEqualTo(DIAGONAL_MOVE_DISTANCE);
+        }
+        return false;
     }
 
     @Override
