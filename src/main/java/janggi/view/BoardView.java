@@ -58,9 +58,7 @@ public class BoardView {
     private void markPalaceBorder(int startRow, int startColumn) {
         for (int row = startRow; row < startRow + 3; row++) {
             for (int col = startColumn; col < startColumn + 3; col++) {
-                if (row == startRow || row == startRow + 2 || col == startColumn || col == startColumn + 2) {
-                    matrix[row][col] = PALACE_CELL;
-                }
+                matrix[row][col] = PALACE_CELL;
             }
         }
     }

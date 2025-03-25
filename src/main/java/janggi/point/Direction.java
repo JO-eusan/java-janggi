@@ -28,6 +28,16 @@ public enum Direction {
         return calculateCardinalDirection(rowGap, columnGap);
     }
 
+    public static Direction complexFrom(Point startPoint, Point targetPoint) {
+        int rowGap = startPoint.row() - targetPoint.row();
+        int columnGap = startPoint.column() - targetPoint.column();
+
+        if (startPoint.isSameRow(targetPoint) || startPoint.isSameColumn(targetPoint)) {
+            return calculateCardinalDirection(rowGap, columnGap);
+        }
+        return calculateDiagonalDirection(rowGap, columnGap);
+    }
+
     public static List<Direction> complexFrom(Point startPoint, Point targetPoint,
         int diagonalCount) {
         int rowGap = startPoint.row() - targetPoint.row();

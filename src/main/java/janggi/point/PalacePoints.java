@@ -47,10 +47,6 @@ public enum PalacePoints {
         throw new IllegalArgumentException("제공되지 않는 팀입니다.");
     }
 
-    public static boolean isInPalaceWithMovableCardinal(Point point) {
-        return HAN.cardinalPoints.contains(point) || CHO.cardinalPoints.contains(point);
-    }
-
     public static boolean isInPalaceWithMovableDiagonal(Team team, Point point) {
         if (team == Team.HAN) {
             return HAN.diagonalPoints.contains(point);
