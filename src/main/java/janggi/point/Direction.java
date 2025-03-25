@@ -22,19 +22,10 @@ public enum Direction {
     }
 
     public static Direction cardinalFrom(Point startPoint, Point targetPoint) {
-        if (startPoint.isSameRow(targetPoint) && startPoint.isColumnBiggerThan(targetPoint)) {
-            return WEST;
-        }
-        if (startPoint.isSameRow(targetPoint) && startPoint.isColumnLessThan(targetPoint)) {
-            return EAST;
-        }
-        if (startPoint.isSameColumn(targetPoint) && startPoint.isRowBiggerThan(targetPoint)) {
-            return NORTH;
-        }
-        if (startPoint.isSameColumn(targetPoint) && startPoint.isRowLessThan(targetPoint)) {
-            return SOUTH;
-        }
-        throw new IllegalArgumentException("경로를 찾을 수 없습니다.");
+        int rowGap = startPoint.row() - targetPoint.row();
+        int columnGap = startPoint.column() - targetPoint.column();
+
+        return calculateCardinalDirection(rowGap, columnGap);
     }
 
     public static List<Direction> complexFrom(Point startPoint, Point targetPoint,

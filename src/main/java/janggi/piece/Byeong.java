@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.game.Team;
+import janggi.point.PalacePoints;
 import janggi.point.Point;
 import janggi.point.PointDistance;
 import janggi.point.Route;
@@ -9,7 +10,8 @@ import java.util.List;
 public class Byeong implements Movable {
 
     private static final String NAME = "병";
-    private static final double MOVE_DISTANCE = 1;
+    private static final double MOVE_DISTANCE_OUT_PALACE = 1;
+    private static final double MOVE_DISTANCE_IN_PALACE = Math.sqrt(2);
 
     private final Team team;
 
@@ -21,10 +23,15 @@ public class Byeong implements Movable {
     public boolean isInMovingRange(Point startPoint, Point targetPoint) {
         PointDistance distance = PointDistance.calculate(startPoint, targetPoint);
 
-        if (team == Team.CHO) {
-            return distance.isSameWith(MOVE_DISTANCE) && !startPoint.isRowLessThan(targetPoint);
+        if ((team == Team.CHO && startPoint.isRowLessThan(targetPoint))
+            || (team == Team.HAN && startPoint.isRowBiggerThan(targetPoint))) {
+            return false;
         }
-        return distance.isSameWith(MOVE_DISTANCE) && !startPoint.isRowBiggerThan(targetPoint);
+        if (PalacePoints.isInPalaceWithMovableDiagonal(startPoint)
+            && PalacePoints.isInPalaceWithMovableDiagonal(targetPoint)) {
+            return distance.isLessAndEqualTo(MOVE_DISTANCE_IN_PALACE);
+        }
+        return distance.isSameWith(MOVE_DISTANCE_OUT_PALACE);
     }
 
     @Override

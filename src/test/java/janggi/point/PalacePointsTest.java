@@ -97,19 +97,19 @@ public class PalacePointsTest {
         }
 
         @Test
-        @DisplayName("궁성 내부에 존재하면 false를 반환한다.")
+        @DisplayName("궁성 내부에 존재하면 true를 반환한다.")
         void checkOutOfPalaceRange() {
             Point point = new Point(8, 4);
 
-            assertThat(PalacePoints.isOutOfPalaceRange(Team.CHO, point)).isFalse();
+            assertThat(PalacePoints.isInPalaceRange(Team.CHO, point)).isTrue();
         }
 
         @Test
-        @DisplayName("궁성 외부에 존재하면 true를 반환한다.")
+        @DisplayName("궁성 외부에 존재하면 false를 반환한다.")
         void checkInPalaceRange() {
             Point point = new Point(6, 6);
 
-            assertThat(PalacePoints.isOutOfPalaceRange(Team.CHO, point)).isTrue();
+            assertThat(PalacePoints.isInPalaceRange(Team.CHO, point)).isFalse();
         }
     }
 }

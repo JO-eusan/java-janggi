@@ -47,6 +47,10 @@ public enum PalacePoints {
         throw new IllegalArgumentException("제공되지 않는 팀입니다.");
     }
 
+    public static boolean isInPalaceWithMovableCardinal(Point point) {
+        return HAN.cardinalPoints.contains(point) || CHO.cardinalPoints.contains(point);
+    }
+
     public static boolean isInPalaceWithMovableDiagonal(Team team, Point point) {
         if (team == Team.HAN) {
             return HAN.diagonalPoints.contains(point);
@@ -57,13 +61,21 @@ public enum PalacePoints {
         throw new IllegalArgumentException("제공되지 않는 팀입니다.");
     }
 
-    public static boolean isOutOfPalaceRange(Team team, Point point) {
+    public static boolean isInPalaceWithMovableDiagonal(Point point) {
+        return HAN.diagonalPoints.contains(point) || CHO.diagonalPoints.contains(point);
+    }
+
+    public static boolean isInPalaceRange(Team team, Point point) {
         if (team == Team.HAN) {
-            return !HAN.cardinalPoints.contains(point) && !HAN.diagonalPoints.contains(point);
+            return HAN.cardinalPoints.contains(point) || HAN.diagonalPoints.contains(point);
         }
         if (team == Team.CHO) {
-            return !CHO.cardinalPoints.contains(point) && !CHO.diagonalPoints.contains(point);
+            return CHO.cardinalPoints.contains(point) || CHO.diagonalPoints.contains(point);
         }
         throw new IllegalArgumentException("제공되지 않는 팀입니다.");
+    }
+
+    public static boolean isOutOfPalaceRange(Team team, Point point) {
+        return !isInPalaceRange(team, point);
     }
 }

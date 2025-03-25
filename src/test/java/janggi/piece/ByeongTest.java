@@ -6,9 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import janggi.game.Team;
 import janggi.point.Point;
 import janggi.point.Route;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class ByeongTest {
 
@@ -80,6 +84,42 @@ class ByeongTest {
             Point targetPoint = new Point(7, 6);
 
             assertThat(byeong.isInMovingRange(startPoint, targetPoint)).isTrue();
+        }
+
+        @ParameterizedTest
+        @MethodSource("getStartAndTargetPointsInPalace")
+        @DisplayName("궁성에서 대각선이 이동 가능한 경우 true를 반환한다.")
+        void checkMovableInPalace(Point startPoint, Point targetPoint) {
+            Byeong byeong = new Byeong(Team.CHO);
+
+            assertThat(byeong.isInMovingRange(startPoint, targetPoint)).isTrue();
+        }
+
+        private static Stream<Arguments> getStartAndTargetPointsInPalace() {
+            return Stream.of(
+                Arguments.arguments(new Point(8, 4), new Point(7, 3)),
+                Arguments.arguments(new Point(8, 4), new Point(7, 5)),
+                Arguments.arguments(new Point(2, 5), new Point(1, 4)),
+                Arguments.arguments(new Point(2, 3), new Point(1, 4))
+            );
+        }
+
+        @ParameterizedTest
+        @MethodSource("getStartAndTargetPointsOutPalace")
+        @DisplayName("궁성에서 대각선이 이동 불가능한 경우 false를 반환한다.")
+        void checkMovableOutPalace(Point startPoint, Point targetPoint) {
+            Byeong byeong = new Byeong(Team.CHO);
+
+            assertThat(byeong.isInMovingRange(startPoint, targetPoint)).isFalse();
+        }
+
+        private static Stream<Arguments> getStartAndTargetPointsOutPalace() {
+            return Stream.of(
+                Arguments.arguments(new Point(8, 4), new Point(9, 3)),
+                Arguments.arguments(new Point(8, 4), new Point(9, 5)),
+                Arguments.arguments(new Point(2, 4), new Point(1, 3)),
+                Arguments.arguments(new Point(2, 4), new Point(1, 5))
+            );
         }
     }
 
