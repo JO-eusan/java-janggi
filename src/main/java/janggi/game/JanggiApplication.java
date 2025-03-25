@@ -3,12 +3,15 @@ package janggi.game;
 import janggi.point.Point;
 import janggi.view.BoardView;
 import janggi.view.InputView;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 public class JanggiApplication {
 
     private static final String WINNING_DECISION_TARGET = "궁";
     private static final int WINNING_DECISION_TARGET_COUNT = 2;
+    private static final int WINNING_DECISION_TIME_COUNT = 15;
 
     private final InputView inputView;
     private final BoardView boardView;
@@ -33,9 +36,10 @@ public class JanggiApplication {
     }
 
     private void processGame(Board board) {
+        Instant startTime = Instant.now();
+        int duration;
         do {
             boardView.printTeam(board.getTurn());
-
             handleMoveException(() -> {
                 List<Point> startAndTargetPoint = inputView.readStartAndTargetPoint();
                 Point startPoint = startAndTargetPoint.getFirst();
@@ -47,7 +51,11 @@ public class JanggiApplication {
 
                 board.reverseTurn();
             });
-        } while (board.countPieces(WINNING_DECISION_TARGET) == WINNING_DECISION_TARGET_COUNT);
+
+            duration = (int) Duration.between(startTime, Instant.now()).toMinutes();
+            boardView.printDuration(duration);
+        } while ((duration < WINNING_DECISION_TIME_COUNT)
+            && (board.countPieces(WINNING_DECISION_TARGET) == WINNING_DECISION_TARGET_COUNT));
     }
 
     private void handleMoveException(Runnable action) {

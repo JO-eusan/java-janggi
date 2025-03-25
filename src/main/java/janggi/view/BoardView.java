@@ -4,6 +4,8 @@ import janggi.game.Board;
 import janggi.game.Team;
 import janggi.piece.Movable;
 import janggi.point.Point;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -25,6 +27,12 @@ public class BoardView {
     public void printTeam(Team team) {
         System.out.println();
         System.out.printf("%s의 차례입니다.%n", team.getColorCode() + team.getText() + EXIT_COLOR_CODE);
+    }
+
+    public void printDuration(int duration) {
+        System.out.println();
+        System.out.printf("경과 시간: %d분", duration);
+        System.out.println();
     }
 
     public void printMovingResult(Board board, Point startPoint, Point targetPoint) {
