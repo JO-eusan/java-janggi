@@ -12,5 +12,7 @@ public interface Movable {
 
     String getName();
 
+    double getScore(Team team);
+
     Team getTeam();
 }

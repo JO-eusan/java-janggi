@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.piece.Byeong;
+import janggi.piece.Cha;
+import janggi.piece.Gung;
 import janggi.piece.Ma;
 import janggi.piece.Movable;
 import janggi.piece.Po;
@@ -276,6 +278,31 @@ public class BoardTest {
             assertAll(() -> {
                 assertThat(updatePieces.get(targetPoint)).isInstanceOf(Movable.class);
                 assertThat(updatePieces).hasSize(2);
+            });
+        }
+    }
+
+    @Nested
+    @DisplayName("점수 계산 테스트")
+    class ScoreTest {
+
+        @Test
+        @DisplayName("남은 기물의 점수를 계산할 수 있다.")
+        void calculateScoreOfAllTeam() {
+            Map<Point, Movable> pieces = new HashMap<>(Map.of(
+                new Point(6, 4), new Po(Team.CHO), // 7점
+                new Point(5, 4), new Byeong(Team.CHO), // 2점
+                new Point(3, 4), new Ma(Team.CHO), // 5점
+                new Point(4, 4), new Cha(Team.HAN), // 13 + 1.5점
+                new Point(6, 6), new Gung(Team.HAN) // 0점
+            ));
+            Board board = new Board(pieces, Team.CHO);
+
+            TeamScore score = board.calculateScoreOfAllTeam();
+
+            assertAll(() -> {
+                assertThat(score.findScoreByTeam(Team.CHO)).isEqualTo(14);
+                assertThat(score.findScoreByTeam(Team.HAN)).isEqualTo(14.5);
             });
         }
     }

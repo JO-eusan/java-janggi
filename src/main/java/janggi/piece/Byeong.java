@@ -10,6 +10,7 @@ import java.util.List;
 public class Byeong implements Movable {
 
     private static final String NAME = "병";
+    private static final double SCORE = 2.0;
     private static final double MOVE_DISTANCE_OUT_PALACE = 1;
     private static final double MOVE_DISTANCE_IN_PALACE = Math.sqrt(2);
 
@@ -42,6 +43,11 @@ public class Byeong implements Movable {
     @Override
     public String getName() {
         return NAME;
+    }
+
+    @Override
+    public double getScore(Team team) {
+        return SCORE + team.getExtraScore();
     }
 
     @Override

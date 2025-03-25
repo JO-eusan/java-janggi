@@ -2,11 +2,11 @@ package janggi.view;
 
 import janggi.game.Board;
 import janggi.game.Team;
+import janggi.game.TeamScore;
 import janggi.piece.Movable;
 import janggi.point.Point;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class BoardView {
@@ -42,6 +42,17 @@ public class BoardView {
         System.out.printf("%s를(을) (%d, %d) -> (%d, %d)로 이동했습니다.%n", piece.getName(),
             startPoint.row(), startPoint.column(),
             targetPoint.row(), targetPoint.column());
+    }
+
+    public void displayScoreBoard(TeamScore score, List<Movable> decisionPiece) {
+        Team winner = score.judgeWinner(decisionPiece);
+        System.out.printf("%n%s가 승리하였습니다.%n",
+            winner.getColorCode() + winner.getText() + EXIT_COLOR_CODE);
+
+        System.out.println("----------------");
+        System.out.println("<점수판>");
+        System.out.printf("- 초나라: %.1f%n", score.findScoreByTeam(Team.CHO));
+        System.out.printf("- 한나라: %.1f%n", score.findScoreByTeam(Team.HAN));
     }
 
     public void displayBoard(Board board) {

@@ -12,6 +12,7 @@ import java.util.List;
 public class Cha implements Movable {
 
     private static final String NAME = "차";
+    private static final double SCORE = 13.0;
 
     private final Team team;
 
@@ -45,6 +46,11 @@ public class Cha implements Movable {
     @Override
     public String getName() {
         return NAME;
+    }
+
+    @Override
+    public double getScore(Team team) {
+        return SCORE + team.getExtraScore();
     }
 
     @Override

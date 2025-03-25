@@ -3,8 +3,11 @@ package janggi.game;
 import janggi.piece.Movable;
 import janggi.point.Point;
 import janggi.point.Route;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Board {
 
@@ -25,10 +28,10 @@ public class Board {
         this.turn = turn.reverse();
     }
 
-    public int countPieces(String pieceName) {
-        return (int) runningPieces.values().stream()
+    public List<Movable> findPiecesByName(String pieceName) {
+        return runningPieces.values().stream()
             .filter(piece -> pieceName.equals(piece.getName()))
-            .count();
+            .toList();
     }
 
     public Movable findPieceByPoint(Point point) {
@@ -59,6 +62,19 @@ public class Board {
         if (!movingPiece.isInMovingRange(startPoint, targetPoint)) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
+    }
+
+    public TeamScore calculateScoreOfAllTeam() {
+        Map<Team, Double> teamScore = Arrays.stream(Team.values())
+            .collect(Collectors.toMap(team -> team, this::calculateTotalScore));
+        return new TeamScore(teamScore);
+    }
+
+    private double calculateTotalScore(Team team) {
+        return runningPieces.values().stream()
+            .filter(piece -> team == piece.getTeam())
+            .mapToDouble(piece -> piece.getScore(team))
+            .sum();
     }
 
     public Map<Point, Movable> getRunningPieces() {

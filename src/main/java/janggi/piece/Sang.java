@@ -11,6 +11,7 @@ import java.util.List;
 public class Sang implements Movable {
 
     private static final String NAME = "상";
+    private static final double SCORE = 3.0;
     private static final double MOVE_DISTANCE = Math.sqrt(13);
     private static final int DIAGONAL_COUNT = 2;
 
@@ -43,6 +44,11 @@ public class Sang implements Movable {
     @Override
     public String getName() {
         return NAME;
+    }
+
+    @Override
+    public double getScore(Team team) {
+        return SCORE + team.getExtraScore();
     }
 
     @Override

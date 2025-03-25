@@ -1,14 +1,16 @@
 package janggi.game;
 
 public enum Team {
-    HAN("한나라", "\u001B[31m"),
-    CHO("초나라", "\u001B[32m");
+    HAN("한나라", 1.5, "\u001B[31m"),
+    CHO("초나라", 0.0, "\u001B[32m");
 
     private final String text;
+    private final double extraScore;
     private final String colorCode;
 
-    Team(String text, String colorCode) {
+    Team(String text, double extraScore, String colorCode) {
         this.text = text;
+        this.extraScore = extraScore;
         this.colorCode = colorCode;
     }
 
@@ -24,6 +26,10 @@ public enum Team {
 
     public String getText() {
         return text;
+    }
+
+    public double getExtraScore() {
+        return extraScore;
     }
 
     public String getColorCode() {
