@@ -11,12 +11,11 @@ import java.util.List;
 
 public class Po implements Movable {
 
-    private static final String NAME = "포";
-    private static final double SCORE = 7.0;
-
+    private final PieceType type;
     private final Team team;
 
     public Po(Team team) {
+        this.type = PieceType.PO;
         this.team = team;
     }
 
@@ -32,7 +31,7 @@ public class Po implements Movable {
     @Override
     public Route findRoute(Point startPoint, Point targetPoint) {
         List<Point> route = new ArrayList<>();
-        Direction direction = Direction.complexFrom(startPoint, targetPoint);
+        Direction direction = Direction.calculateDirections(startPoint, targetPoint);
         PointDistance distance = PointDistance.calculate(startPoint, targetPoint);
 
         Point pointer = startPoint;
@@ -44,17 +43,17 @@ public class Po implements Movable {
     }
 
     @Override
+    public Team getTeam() {
+        return this.team;
+    }
+
+    @Override
     public String getName() {
-        return NAME;
+        return type.getText();
     }
 
     @Override
     public double getScore(Team team) {
-        return SCORE + team.getExtraScore();
-    }
-
-    @Override
-    public Team getTeam() {
-        return this.team;
+        return type.getScore() + team.getExtraScore();
     }
 }

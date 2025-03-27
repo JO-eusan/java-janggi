@@ -10,9 +10,9 @@ public interface Movable {
 
     Route findRoute(Point startPoint, Point targetPoint);
 
+    Team getTeam();
+
     String getName();
 
     double getScore(Team team);
-
-    Team getTeam();
 }

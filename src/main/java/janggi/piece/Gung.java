@@ -9,14 +9,14 @@ import java.util.List;
 
 public class Gung implements Movable {
 
-    private static final String NAME = "궁";
-    private static final double SCORE = 0.0;
     private static final double CARDINAL_MOVE_DISTANCE = 1;
     private static final double DIAGONAL_MOVE_DISTANCE = Math.sqrt(2);
 
+    private final PieceType type;
     private final Team team;
 
     public Gung(Team team) {
+        this.type = PieceType.GUNG;
         this.team = team;
     }
 
@@ -42,17 +42,17 @@ public class Gung implements Movable {
     }
 
     @Override
+    public Team getTeam() {
+        return this.team;
+    }
+
+    @Override
     public String getName() {
-        return NAME;
+        return type.getText();
     }
 
     @Override
     public double getScore(Team team) {
-        return SCORE;
-    }
-
-    @Override
-    public Team getTeam() {
-        return this.team;
+        return type.getScore();
     }
 }

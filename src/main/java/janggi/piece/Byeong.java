@@ -9,14 +9,14 @@ import java.util.List;
 
 public class Byeong implements Movable {
 
-    private static final String NAME = "병";
-    private static final double SCORE = 2.0;
     private static final double MOVE_DISTANCE_OUT_PALACE = 1;
     private static final double MOVE_DISTANCE_IN_PALACE = Math.sqrt(2);
 
+    private final PieceType type;
     private final Team team;
 
     public Byeong(Team team) {
+        this.type = PieceType.BYEONG;
         this.team = team;
     }
 
@@ -41,17 +41,17 @@ public class Byeong implements Movable {
     }
 
     @Override
+    public Team getTeam() {
+        return this.team;
+    }
+
+    @Override
     public String getName() {
-        return NAME;
+        return type.getText();
     }
 
     @Override
     public double getScore(Team team) {
-        return SCORE + team.getExtraScore();
-    }
-
-    @Override
-    public Team getTeam() {
-        return this.team;
+        return type.getScore() + team.getExtraScore();
     }
 }

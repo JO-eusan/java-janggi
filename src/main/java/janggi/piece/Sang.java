@@ -10,14 +10,14 @@ import java.util.List;
 
 public class Sang implements Movable {
 
-    private static final String NAME = "상";
-    private static final double SCORE = 3.0;
     private static final double MOVE_DISTANCE = Math.sqrt(13);
     private static final int DIAGONAL_COUNT = 2;
 
+    private final PieceType type;
     private final Team team;
 
     public Sang(Team team) {
+        this.type = PieceType.SANG;
         this.team = team;
     }
 
@@ -31,7 +31,7 @@ public class Sang implements Movable {
     @Override
     public Route findRoute(Point startPoint, Point targetPoint) {
         List<Point> route = new ArrayList<>();
-        List<Direction> directions = Direction.complexFrom(startPoint, targetPoint, DIAGONAL_COUNT);
+        List<Direction> directions = Direction.calculateDirections(startPoint, targetPoint, DIAGONAL_COUNT);
 
         Point pointer = startPoint;
         for (Direction direction : directions) {
@@ -42,17 +42,17 @@ public class Sang implements Movable {
     }
 
     @Override
+    public Team getTeam() {
+        return this.team;
+    }
+
+    @Override
     public String getName() {
-        return NAME;
+        return type.getText();
     }
 
     @Override
     public double getScore(Team team) {
-        return SCORE + team.getExtraScore();
-    }
-
-    @Override
-    public Team getTeam() {
-        return this.team;
+        return type.getScore() + team.getExtraScore();
     }
 }
