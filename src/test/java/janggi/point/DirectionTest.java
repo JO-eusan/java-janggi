@@ -19,7 +19,7 @@ public class DirectionTest {
             Point startPoint = new Point(6, 6);
             Point targetPoint = new Point(5, 6);
 
-            assertThat(Direction.cardinalFrom(startPoint, targetPoint)).isEqualTo(Direction.NORTH);
+            assertThat(Direction.calculateDirections(startPoint, targetPoint)).isEqualTo(Direction.NORTH);
         }
 
         @Test
@@ -28,7 +28,7 @@ public class DirectionTest {
             Point startPoint = new Point(6, 6);
             Point targetPoint = new Point(7, 6);
 
-            assertThat(Direction.cardinalFrom(startPoint, targetPoint)).isEqualTo(Direction.SOUTH);
+            assertThat(Direction.calculateDirections(startPoint, targetPoint)).isEqualTo(Direction.SOUTH);
         }
 
         @Test
@@ -37,7 +37,7 @@ public class DirectionTest {
             Point startPoint = new Point(6, 6);
             Point targetPoint = new Point(6, 5);
 
-            assertThat(Direction.cardinalFrom(startPoint, targetPoint)).isEqualTo(Direction.WEST);
+            assertThat(Direction.calculateDirections(startPoint, targetPoint)).isEqualTo(Direction.WEST);
         }
 
         @Test
@@ -46,7 +46,7 @@ public class DirectionTest {
             Point startPoint = new Point(6, 6);
             Point targetPoint = new Point(6, 7);
 
-            assertThat(Direction.cardinalFrom(startPoint, targetPoint)).isEqualTo(Direction.EAST);
+            assertThat(Direction.calculateDirections(startPoint, targetPoint)).isEqualTo(Direction.EAST);
         }
     }
 
@@ -60,7 +60,7 @@ public class DirectionTest {
             Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(2, 6);
 
-            List<Direction> directions = Direction.complexFrom(startPoint, targetPoint, 2);
+            List<Direction> directions = Direction.calculateDirections(startPoint, targetPoint, 2);
 
             assertThat(directions).containsExactly(Direction.NORTH, Direction.NORTH_EAST);
         }
@@ -71,7 +71,7 @@ public class DirectionTest {
             Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(3, 7);
 
-            List<Direction> directions = Direction.complexFrom(startPoint, targetPoint, 2);
+            List<Direction> directions = Direction.calculateDirections(startPoint, targetPoint, 2);
 
             assertThat(directions).containsExactly(Direction.EAST, Direction.NORTH_EAST);
         }
@@ -82,7 +82,7 @@ public class DirectionTest {
             Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(7, 7);
 
-            List<Direction> directions = Direction.complexFrom(startPoint, targetPoint, 2);
+            List<Direction> directions = Direction.calculateDirections(startPoint, targetPoint, 2);
 
             assertThat(directions).containsExactly(Direction.EAST, Direction.SOUTH_EAST);
         }
@@ -93,7 +93,7 @@ public class DirectionTest {
             Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(8, 6);
 
-            List<Direction> directions = Direction.complexFrom(startPoint, targetPoint, 2);
+            List<Direction> directions = Direction.calculateDirections(startPoint, targetPoint, 2);
 
             assertThat(directions).containsExactly(Direction.SOUTH, Direction.SOUTH_EAST);
         }
@@ -104,7 +104,7 @@ public class DirectionTest {
             Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(8, 2);
 
-            List<Direction> directions = Direction.complexFrom(startPoint, targetPoint, 2);
+            List<Direction> directions = Direction.calculateDirections(startPoint, targetPoint, 2);
 
             assertThat(directions).containsExactly(Direction.SOUTH, Direction.SOUTH_WEST);
         }
@@ -115,7 +115,7 @@ public class DirectionTest {
             Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(7, 1);
 
-            List<Direction> directions = Direction.complexFrom(startPoint, targetPoint, 2);
+            List<Direction> directions = Direction.calculateDirections(startPoint, targetPoint, 2);
 
             assertThat(directions).containsExactly(Direction.WEST, Direction.SOUTH_WEST);
         }
@@ -126,7 +126,7 @@ public class DirectionTest {
             Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(3, 1);
 
-            List<Direction> directions = Direction.complexFrom(startPoint, targetPoint, 2);
+            List<Direction> directions = Direction.calculateDirections(startPoint, targetPoint, 2);
 
             assertThat(directions).containsExactly(Direction.WEST, Direction.NORTH_WEST);
         }
@@ -137,7 +137,7 @@ public class DirectionTest {
             Point startPoint = new Point(5, 4);
             Point targetPoint = new Point(2, 2);
 
-            List<Direction> directions = Direction.complexFrom(startPoint, targetPoint, 2);
+            List<Direction> directions = Direction.calculateDirections(startPoint, targetPoint, 2);
 
             assertThat(directions).containsExactly(Direction.NORTH, Direction.NORTH_WEST);
         }

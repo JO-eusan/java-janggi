@@ -21,14 +21,7 @@ public enum Direction {
         this.columnDistance = columnDistance;
     }
 
-    public static Direction cardinalFrom(Point startPoint, Point targetPoint) {
-        int rowGap = startPoint.row() - targetPoint.row();
-        int columnGap = startPoint.column() - targetPoint.column();
-
-        return calculateCardinalDirection(rowGap, columnGap);
-    }
-
-    public static Direction complexFrom(Point startPoint, Point targetPoint) {
+    public static Direction calculateDirections(Point startPoint, Point targetPoint) {
         int rowGap = startPoint.row() - targetPoint.row();
         int columnGap = startPoint.column() - targetPoint.column();
 
@@ -38,8 +31,7 @@ public enum Direction {
         return calculateDiagonalDirection(rowGap, columnGap);
     }
 
-    public static List<Direction> complexFrom(Point startPoint, Point targetPoint,
-        int diagonalCount) {
+    public static List<Direction> calculateDirections(Point startPoint, Point targetPoint, int diagonalCount) {
         int rowGap = startPoint.row() - targetPoint.row();
         int columnGap = startPoint.column() - targetPoint.column();
 
