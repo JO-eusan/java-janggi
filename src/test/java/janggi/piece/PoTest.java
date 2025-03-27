@@ -3,7 +3,7 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.game.Team;
+import janggi.game.team.Team;
 import janggi.point.Point;
 import janggi.point.Route;
 import java.util.List;

@@ -1,6 +1,7 @@
-package janggi.piece;
+package janggi.piece.pieces;
 
-import janggi.game.Team;
+import janggi.game.team.Team;
+import janggi.piece.Movable;
 import janggi.point.Point;
 import janggi.point.Route;
 import java.util.Collections;

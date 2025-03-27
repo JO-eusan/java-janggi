@@ -1,4 +1,4 @@
-package janggi.game;
+package janggi.game.team;
 
 public enum Team {
     HAN("한나라", 1.5, "\u001B[31m"),

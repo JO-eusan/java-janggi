@@ -4,13 +4,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import janggi.game.team.Team;
+import janggi.game.team.TeamScore;
 import janggi.piece.Byeong;
 import janggi.piece.Cha;
 import janggi.piece.Gung;
 import janggi.piece.Ma;
 import janggi.piece.Movable;
 import janggi.piece.Po;
-import janggi.piece.RunningPieces;
+import janggi.piece.pieces.RunningPieces;
 import janggi.point.Point;
 import java.util.HashMap;
 import java.util.Map;

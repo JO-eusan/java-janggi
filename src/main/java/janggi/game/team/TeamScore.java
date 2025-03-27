@@ -1,4 +1,4 @@
-package janggi.game;
+package janggi.game.team;
 
 import janggi.piece.Movable;
 import java.util.List;

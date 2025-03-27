@@ -2,12 +2,12 @@ package janggi.point;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.game.Team;
+import janggi.game.team.Team;
 import janggi.piece.Byeong;
 import janggi.piece.Ma;
 import janggi.piece.Movable;
 import janggi.piece.Po;
-import janggi.piece.RunningPieces;
+import janggi.piece.pieces.RunningPieces;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

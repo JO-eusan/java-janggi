@@ -1,8 +1,10 @@
 package janggi.game;
 
-import janggi.piece.InitialPieces;
+import janggi.game.team.Team;
+import janggi.game.team.TeamScore;
 import janggi.piece.Movable;
-import janggi.piece.RunningPieces;
+import janggi.piece.pieces.InitialPieces;
+import janggi.piece.pieces.RunningPieces;
 import janggi.point.Point;
 import java.util.Arrays;
 import java.util.List;

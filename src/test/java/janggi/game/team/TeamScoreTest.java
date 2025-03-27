@@ -1,4 +1,4 @@
-package janggi.game;
+package janggi.game.team;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

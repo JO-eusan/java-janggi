@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.game.Team;
+import janggi.game.team.Team;
 import janggi.point.Point;
 import janggi.point.Route;
 

@@ -1,8 +1,8 @@
 package janggi.point;
 
-import janggi.game.Team;
+import janggi.game.team.Team;
 import janggi.piece.Movable;
-import janggi.piece.RunningPieces;
+import janggi.piece.pieces.RunningPieces;
 import java.util.List;
 import java.util.Set;
 

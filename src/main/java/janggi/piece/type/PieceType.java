@@ -1,4 +1,4 @@
-package janggi.piece;
+package janggi.piece.type;
 
 public enum PieceType {
     GUNG("궁", 0.0),

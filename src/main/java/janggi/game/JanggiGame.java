@@ -1,5 +1,7 @@
 package janggi.game;
 
+import janggi.game.team.Team;
+import janggi.game.team.TeamScore;
 import janggi.point.Point;
 import janggi.view.BoardView;
 import janggi.view.InputView;

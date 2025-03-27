@@ -1,6 +1,7 @@
 package janggi.piece;
 
-import janggi.game.Team;
+import janggi.game.team.Team;
+import janggi.piece.type.PieceType;
 import janggi.point.Direction;
 import janggi.point.Point;
 import janggi.point.PointDistance;

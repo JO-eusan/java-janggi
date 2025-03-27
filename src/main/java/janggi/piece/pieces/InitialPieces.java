@@ -1,6 +1,14 @@
-package janggi.piece;
+package janggi.piece.pieces;
 
-import janggi.game.Team;
+import janggi.game.team.Team;
+import janggi.piece.Byeong;
+import janggi.piece.Cha;
+import janggi.piece.Gung;
+import janggi.piece.Ma;
+import janggi.piece.Movable;
+import janggi.piece.Po;
+import janggi.piece.Sa;
+import janggi.piece.Sang;
 import janggi.point.Point;
 import java.util.Arrays;
 import java.util.Collections;

@@ -1,6 +1,6 @@
 package janggi.point;
 
-import janggi.game.Team;
+import janggi.game.team.Team;
 import java.util.List;
 
 public enum PalacePoints {
