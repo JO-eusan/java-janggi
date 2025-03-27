@@ -4,9 +4,9 @@ import janggi.game.Board;
 import janggi.game.Team;
 import janggi.game.TeamScore;
 import janggi.piece.Movable;
+import janggi.piece.RunningPieces;
 import janggi.point.Point;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 public class BoardView {
@@ -35,8 +35,8 @@ public class BoardView {
         System.out.println();
     }
 
-    public void printMovingResult(Board board, Point startPoint, Point targetPoint) {
-        Movable piece = board.findPieceByPoint(targetPoint);
+    public void printMovingResult(RunningPieces pieces, Point startPoint, Point targetPoint) {
+        Movable piece = pieces.findPieceByPoint(targetPoint);
 
         System.out.println();
         System.out.printf("%s를(을) (%d, %d) -> (%d, %d)로 이동했습니다.%n", piece.getName(),
@@ -44,8 +44,7 @@ public class BoardView {
             targetPoint.row(), targetPoint.column());
     }
 
-    public void displayScoreBoard(TeamScore score, List<Movable> decisionPiece) {
-        Team winner = score.judgeWinner(decisionPiece);
+    public void displayScoreBoard(TeamScore score, Team winner) {
         System.out.printf("%n%s가 승리하였습니다.%n",
             winner.getColorCode() + winner.getText() + EXIT_COLOR_CODE);
 
@@ -57,7 +56,7 @@ public class BoardView {
 
     public void displayBoard(Board board) {
         clearBoard();
-        placePieces(board.getRunningPieces());
+        placePieces(board.getRunningPieces().getRunningPieces());
 
         for (int row = 0; row < ROW_SIZE; row++) {
             System.out.println(buildRow(row));

@@ -1,13 +1,6 @@
-package janggi.game;
+package janggi.piece;
 
-import janggi.piece.Byeong;
-import janggi.piece.Cha;
-import janggi.piece.Gung;
-import janggi.piece.Ma;
-import janggi.piece.Movable;
-import janggi.piece.Po;
-import janggi.piece.Sa;
-import janggi.piece.Sang;
+import janggi.game.Team;
 import janggi.point.Point;
 import java.util.Arrays;
 import java.util.Collections;
@@ -68,11 +61,13 @@ public enum InitialPieces {
         this.initialPieces = initialPieces;
     }
 
-    public static Map<Point, Movable> getAllPieces() {
-        return Arrays.stream(values())
+    public static RunningPieces getAllPieces() {
+        Map<Point, Movable> initialPieces = Arrays.stream(values())
             .map(InitialPieces::getInitialPieces)
             .flatMap(map -> map.entrySet().stream())
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        return new RunningPieces(initialPieces);
     }
 
     private Map<Point, Movable> getInitialPieces() {

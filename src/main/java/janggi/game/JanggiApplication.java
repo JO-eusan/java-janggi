@@ -11,7 +11,7 @@ public class JanggiApplication {
 
     private static final String WINNING_DECISION_TARGET = "궁";
     private static final int WINNING_DECISION_TARGET_COUNT = 2;
-    private static final int WINNING_DECISION_TIME_COUNT = 2;
+    private static final int WINNING_DECISION_TIME_COUNT = 1;
 
     private final InputView inputView;
     private final BoardView boardView;
@@ -33,7 +33,7 @@ public class JanggiApplication {
 
             processGame(board);
             TeamScore score = board.calculateScoreOfAllTeam();
-            boardView.displayScoreBoard(score, board.findPiecesByName(WINNING_DECISION_TARGET));
+            boardView.displayScoreBoard(score, board.decideWinner(WINNING_DECISION_TARGET));
         }
     }
 
@@ -48,7 +48,7 @@ public class JanggiApplication {
                 Point targetPoint = startAndTargetPoint.getLast();
 
                 board.move(startPoint, targetPoint);
-                boardView.printMovingResult(board, startPoint, targetPoint);
+                boardView.printMovingResult(board.getRunningPieces(), startPoint, targetPoint);
                 boardView.displayBoard(board);
 
                 board.reverseTurn();
@@ -57,8 +57,7 @@ public class JanggiApplication {
             duration = (int) Duration.between(startTime, Instant.now()).toMinutes();
             boardView.printDuration(duration);
         } while ((duration < WINNING_DECISION_TIME_COUNT)
-            && (board.findPiecesByName(WINNING_DECISION_TARGET).size()
-            == WINNING_DECISION_TARGET_COUNT));
+            && (board.countPieces(WINNING_DECISION_TARGET) == WINNING_DECISION_TARGET_COUNT));
     }
 
     private void handleMoveException(Runnable action) {
