@@ -30,7 +30,7 @@ public class BoardTest {
         @Test
         @DisplayName("32개의 기물을 가진 장기판을 생성할 수 있다.")
         void createBoardWithPieces() {
-            Board board = Board.putPiecesOnPoint(Team.CHO);
+            Board board = Board.putPiecesOnPoint(Team.CHO, "testBoard");
 
             RunningPieces pieces = board.getRunningPieces();
 
@@ -40,7 +40,7 @@ public class BoardTest {
         @Test
         @DisplayName("시작 팀을 지정하여 장기판을 생성할 수 있다.")
         void createBoardWithStartTeam() {
-            Board board = Board.putPiecesOnPoint(Team.CHO);
+            Board board = Board.putPiecesOnPoint(Team.CHO, "testBoard");
 
             assertThat(board.getTurn()).isEqualTo(Team.CHO);
         }
@@ -48,7 +48,7 @@ public class BoardTest {
         @Test
         @DisplayName("팀을 변경할 수 있다.")
         void changeTeam() {
-            Board board = Board.putPiecesOnPoint(Team.CHO);
+            Board board = Board.putPiecesOnPoint(Team.CHO, "testBoard");
 
             board.reverseTurn();
 
@@ -67,7 +67,7 @@ public class BoardTest {
                 new Point(6, 4), new Byeong(Team.HAN)
             ));
             RunningPieces runningPieces = new RunningPieces(pieces);
-            Board board = new Board(runningPieces, Team.CHO);
+            Board board = new Board(runningPieces, Team.CHO, "testBoard");
 
             Point startPoint = new Point(6, 4);
             Point targetPoint = new Point(5, 4);
@@ -84,7 +84,7 @@ public class BoardTest {
                 new Point(6, 4), new Byeong(Team.CHO)
             ));
             RunningPieces runningPieces = new RunningPieces(pieces);
-            Board board = new Board(runningPieces, Team.CHO);
+            Board board = new Board(runningPieces, Team.CHO, "testBoard");
 
             Point startPoint = new Point(6, 4);
             Point targetPoint = new Point(5, 4);
@@ -103,7 +103,7 @@ public class BoardTest {
                 new Point(5, 4), new Byeong(Team.HAN)
             ));
             RunningPieces runningPieces = new RunningPieces(pieces);
-            Board board = new Board(runningPieces, Team.CHO);
+            Board board = new Board(runningPieces, Team.CHO, "testBoard");
 
             Point startPoint = new Point(6, 4);
             Point targetPoint = new Point(5, 4);
@@ -134,7 +134,7 @@ public class BoardTest {
                 new Point(6, 6), new Gung(Team.HAN) // 0점
             ));
             RunningPieces runningPieces = new RunningPieces(pieces);
-            board = new Board(runningPieces, Team.CHO);
+            board = new Board(runningPieces, Team.CHO, "testBoard");
         }
 
         @Test

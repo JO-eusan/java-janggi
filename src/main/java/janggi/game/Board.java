@@ -15,15 +15,17 @@ public class Board {
 
     private final RunningPieces runningPieces;
     private Team turn;
+    private String boardName;
 
-    public Board(RunningPieces runningPieces, Team turn) {
+    public Board(RunningPieces runningPieces, Team turn, String boardName) {
         this.runningPieces = runningPieces;
         this.turn = turn;
+        this.boardName = boardName;
     }
 
-    public static Board putPiecesOnPoint(Team startTeam) {
+    public static Board putPiecesOnPoint(Team startTeam, String boardName) {
         RunningPieces runningPieces = InitialPieces.getAllPieces();
-        return new Board(runningPieces, startTeam);
+        return new Board(runningPieces, startTeam, boardName);
     }
 
     public void reverseTurn() {
@@ -64,5 +66,9 @@ public class Board {
 
     public Team getTurn() {
         return turn;
+    }
+
+    public String getBoardName() {
+        return boardName;
     }
 }
