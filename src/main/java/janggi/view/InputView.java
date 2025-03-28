@@ -20,6 +20,16 @@ public class InputView {
         }
     }
 
+    public boolean readGameRestart() {
+        try {
+            System.out.println("기존에 진행하던 게임이 존재합니다. 다시 불러오시겠습니까? (y/n)");
+            return YorN.fromText(scanner.nextLine()).toBoolean();
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage() + ERROR_SUFFIX);
+            return readGameRestart();
+        }
+    }
+
     public List<Point> readStartAndTargetPoint() {
         try {
             System.out.println("이동하고 싶은 기물의 좌표와 목적지 좌표를 입력하세요. (row,column->row,column)");
