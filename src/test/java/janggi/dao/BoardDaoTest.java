@@ -1,4 +1,4 @@
-package janggi.game.dao;
+package janggi.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
