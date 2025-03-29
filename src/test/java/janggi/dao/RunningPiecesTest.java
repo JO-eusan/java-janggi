@@ -3,7 +3,6 @@ package janggi.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggi.dao.RunningPiecesDao;
 import janggi.piece.pieces.InitialPieces;
 import janggi.piece.pieces.RunningPieces;
 import janggi.point.Point;

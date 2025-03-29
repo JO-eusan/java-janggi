@@ -3,7 +3,6 @@ package janggi.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggi.dao.BoardDao;
 import janggi.game.Board;
 import janggi.game.team.Team;
 import org.junit.jupiter.api.BeforeEach;

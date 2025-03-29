@@ -13,5 +13,5 @@ CREATE TABLE IF NOT EXISTS pieces (
   point_row INT NOT NULL,
   point_column INT NOT NULL,
   PRIMARY KEY (piece_id),
-  FOREIGN KEY (board_name) REFERENCES board(board_name)
+  FOREIGN KEY (board_name) REFERENCES board(board_name) ON DELETE CASCADE
 );
