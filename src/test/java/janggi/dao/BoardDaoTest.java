@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggi.game.Board;
 import janggi.game.team.Team;
+import java.time.LocalTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ public class BoardDaoTest {
     void initTestBoard() {
         board = Board.putPiecesOnPoint(Team.CHO, "testBoard");
         boardDao.deleteAllBoards();
-        boardDao.saveBoard(board, 0);
+        boardDao.saveBoard(board, LocalTime.now());
     }
 
     @Test
@@ -31,7 +32,7 @@ public class BoardDaoTest {
     @DisplayName("보드 저장 테스트")
     public void saveBoard() {
         boardDao.deleteAllBoards();
-        assertThatCode(() -> boardDao.saveBoard(board, 0))
+        assertThatCode(() -> boardDao.saveBoard(board, LocalTime.now()))
             .doesNotThrowAnyException();
     }
 

@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalTime;
 
 public class BoardDao {
 
@@ -25,13 +26,13 @@ public class BoardDao {
         }
     }
 
-    public void saveBoard(Board board, int startMinute) {
+    public void saveBoard(Board board, LocalTime startTime) {
         String query = "INSERT INTO board VALUES(?, ?, ?)";
         try (Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, board.getBoardName());
             preparedStatement.setString(2, board.getTurn().getText());
-            preparedStatement.setInt(3, startMinute);
+            preparedStatement.setString(3, startTime.toString());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -54,7 +55,7 @@ public class BoardDao {
         }
     }
 
-    public int findStartTimeByBoardName(String boardName) {
+    public LocalTime findStartTimeByBoardName(String boardName) {
         String query = "SELECT * FROM board WHERE board_name=?";
         try (Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -62,7 +63,7 @@ public class BoardDao {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getInt("start_minute");
+                return LocalTime.parse(resultSet.getString("start_time"));
             }
             throw new IllegalArgumentException("존재하지 않은 board_name입니다.");
         } catch (final SQLException e) {

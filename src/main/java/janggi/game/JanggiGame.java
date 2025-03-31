@@ -7,6 +7,7 @@ import janggi.game.team.TeamScore;
 import janggi.point.Point;
 import janggi.view.BoardView;
 import janggi.view.InputView;
+import java.time.Duration;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class JanggiGame {
         runningPiecesDao.deleteAllPieces();
 
         Board board = Board.putPiecesOnPoint(Team.CHO, EXIST_BOARD_NAME);
-        boardDao.saveBoard(board, LocalTime.now().getMinute());
+        boardDao.saveBoard(board, LocalTime.now());
         runningPiecesDao.saveRunningPieces(board.getBoardName(), board.getRunningPieces());
 
         return board;
@@ -58,7 +59,8 @@ public class JanggiGame {
         boardView.displayBoard(board);
 
         while (board.countPieces(WINNING_DECISION_TARGET) == WINNING_DECISION_TARGET_COUNT) {
-            int duration = LocalTime.now().getMinute() - boardDao.findStartTimeByBoardName(EXIST_BOARD_NAME);
+            int duration = (int) Duration.between(
+                boardDao.findStartTimeByBoardName(EXIST_BOARD_NAME), LocalTime.now()).toMinutes();
             if (duration > WINNING_DECISION_TIME_COUNT) {
                 break;
             }

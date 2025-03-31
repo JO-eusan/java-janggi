@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS board (
   board_name VARCHAR(50) NOT NULL,
   turn VARCHAR(20) NOT NULL,
-  start_minute INT NOT NULL,
+  start_time TIME NOT NULL,
   PRIMARY KEY (board_name)
 );
 
