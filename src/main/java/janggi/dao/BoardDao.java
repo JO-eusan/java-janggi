@@ -27,7 +27,7 @@ public class BoardDao {
     }
 
     public void saveBoard(Board board, LocalTime startTime) {
-        String query = "INSERT INTO board VALUES(?, ?, ?)";
+        String query = "INSERT INTO (board_name, turn, start_time) board VALUES(?, ?, ?)";
         try (Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, board.getBoardName());
