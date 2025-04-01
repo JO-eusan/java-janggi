@@ -7,6 +7,7 @@ import janggi.dao.connector.MySQLConnector;
 import janggi.game.Board;
 import janggi.game.team.Team;
 import java.time.LocalTime;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,8 +20,12 @@ public class BoardDaoTest {
     @BeforeEach
     void initTestBoard() {
         board = Board.putPiecesOnPoint(Team.CHO, "testBoard");
-        boardDao.deleteAllBoards();
         boardDao.saveBoard(board, LocalTime.now());
+    }
+
+    @AfterEach
+    void deleteTestBoard() {
+        boardDao.deleteAllBoards();
     }
 
     @Test

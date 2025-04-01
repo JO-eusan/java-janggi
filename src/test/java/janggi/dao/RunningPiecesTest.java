@@ -7,6 +7,7 @@ import janggi.dao.connector.MySQLConnector;
 import janggi.piece.pieces.InitialPieces;
 import janggi.piece.pieces.RunningPieces;
 import janggi.point.Point;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,13 +15,18 @@ import org.junit.jupiter.api.Test;
 public class RunningPiecesTest {
 
     private RunningPieces runningPieces;
-    private final RunningPiecesDao runningPiecesDao = new RunningPiecesDao(MySQLConnector.createConnection());
+    private final RunningPiecesDao runningPiecesDao = new RunningPiecesDao(
+        MySQLConnector.createConnection());
 
     @BeforeEach
     void initTestBoard() {
         runningPieces = InitialPieces.getAllPieces();
-        runningPiecesDao.deleteAllPieces();
         runningPiecesDao.saveRunningPieces("testBoard", runningPieces);
+    }
+
+    @AfterEach
+    void deleteTestBoard() {
+        runningPiecesDao.deleteAllPieces();
     }
 
     @Test
