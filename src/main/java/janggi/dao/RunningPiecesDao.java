@@ -73,7 +73,7 @@ public class RunningPiecesDao {
         Point startPoint, Point targetPoint) {
         String query = "UPDATE pieces "
             + "SET point_row=?, point_column=? "
-            + "WHERE board_name=? && type=? && team=? && point_row=? && point_column=?";
+            + "WHERE board_name=? AND type=? AND team=? AND point_row=? AND point_column=?";
 
         Movable piece = runningPieces.findPieceByPoint(targetPoint);
         try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
@@ -91,9 +91,9 @@ public class RunningPiecesDao {
     }
 
     public void deletePiece(String boardName, Point targetPoint) {
-        if (existByPoint(targetPoint)) {
+        if (existByPoint(boardName, targetPoint)) {
             String query = "DELETE FROM pieces "
-                + "WHERE board_name=? && point_row=? && point_column=?";
+                + "WHERE board_name=? AND point_row=? AND point_column=?";
             try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
                 preparedStatement.setString(1, boardName);
                 preparedStatement.setInt(2, targetPoint.row());
@@ -105,12 +105,13 @@ public class RunningPiecesDao {
         }
     }
 
-    private boolean existByPoint(Point point) {
+    public boolean existByPoint(String boardName, Point point) {
         String query = "SELECT EXISTS (SELECT piece_id FROM pieces "
-            + "WHERE point_row=? && point_column=?)";
+            + "WHERE board_name=? AND point_row=? AND point_column=?)";
         try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
-            preparedStatement.setInt(1, point.row());
-            preparedStatement.setInt(2, point.column());
+            preparedStatement.setString(1, boardName);
+            preparedStatement.setInt(2, point.row());
+            preparedStatement.setInt(3, point.column());
 
             ResultSet resultSet = preparedStatement.executeQuery();
             return resultSet.next() && resultSet.getBoolean(1);
