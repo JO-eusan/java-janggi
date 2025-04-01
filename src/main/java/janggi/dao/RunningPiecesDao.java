@@ -66,7 +66,7 @@ public class RunningPiecesDao {
 
                 String type = resultSet.getString("type");
                 String team = resultSet.getString("team");
-                Movable piece = createPiece(type, team);
+                Movable piece = PieceType.createPieceBy(PieceType.of(type), Team.of(team));
 
                 pieces.put(point, piece);
             }
@@ -74,19 +74,6 @@ public class RunningPiecesDao {
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private Movable createPiece(String type, String team) {
-        Map<String, Movable> pieceCreators = Map.of(
-            PieceType.GUNG.getText(), new Gung(Team.of(team)),
-            PieceType.SA.getText(), new Sa(Team.of(team)),
-            PieceType.CHA.getText(), new Cha(Team.of(team)),
-            PieceType.PO.getText(), new Po(Team.of(team)),
-            PieceType.MA.getText(), new Ma(Team.of(team)),
-            PieceType.SANG.getText(), new Sang(Team.of(team)),
-            PieceType.BYEONG.getText(), new Byeong(Team.of(team))
-        );
-        return pieceCreators.get(type);
     }
 
     public void updatePoint(String boardName, RunningPieces runningPieces,
