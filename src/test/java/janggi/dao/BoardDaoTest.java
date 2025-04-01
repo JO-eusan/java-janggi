@@ -25,13 +25,13 @@ public class BoardDaoTest {
 
     @AfterEach
     void deleteTestBoard() {
-        boardDao.deleteAllBoards();
+        boardDao.deleteByBoardName("testBoard");
     }
 
     @Test
     @DisplayName("보드 저장 테스트")
     public void saveBoard() {
-        boardDao.deleteAllBoards();
+        boardDao.deleteByBoardName("testBoard");
         assertThatCode(() -> boardDao.saveBoard(board, LocalTime.now()))
             .doesNotThrowAnyException();
     }

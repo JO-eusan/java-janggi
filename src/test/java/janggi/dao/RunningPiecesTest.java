@@ -4,9 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggi.dao.connector.MySQLConnector;
+import janggi.game.Board;
+import janggi.game.team.Team;
 import janggi.piece.pieces.InitialPieces;
 import janggi.piece.pieces.RunningPieces;
 import janggi.point.Point;
+import java.time.LocalTime;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,19 +17,25 @@ import org.junit.jupiter.api.Test;
 
 public class RunningPiecesTest {
 
+    private Board board;
     private RunningPieces runningPieces;
+    private final BoardDao boardDao = new BoardDao(MySQLConnector.createConnection());
     private final RunningPiecesDao runningPiecesDao = new RunningPiecesDao(
         MySQLConnector.createConnection());
 
     @BeforeEach
     void initTestBoard() {
         runningPieces = InitialPieces.getAllPieces();
+        board = new Board(runningPieces, Team.CHO, "testBoard");
+
+        boardDao.saveBoard(board, LocalTime.now());
         runningPiecesDao.saveRunningPieces("testBoard", runningPieces);
     }
 
     @AfterEach
     void deleteTestBoard() {
-        runningPiecesDao.deleteAllPieces();
+        runningPiecesDao.deleteByBoardName("testBoard");
+        boardDao.deleteByBoardName("testBoard");
     }
 
     @Test
@@ -34,7 +43,7 @@ public class RunningPiecesTest {
     public void savePieces() {
         RunningPieces newRunningPieces = InitialPieces.getAllPieces();
 
-        runningPiecesDao.deleteAllPieces();
+        runningPiecesDao.deleteByBoardName("testBoard");
         assertThatCode(() -> runningPiecesDao.saveRunningPieces("testBoard", newRunningPieces))
             .doesNotThrowAnyException();
     }

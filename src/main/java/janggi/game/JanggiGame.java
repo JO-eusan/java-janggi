@@ -45,8 +45,8 @@ public class JanggiGame {
             return new Board(runningPiecesDao.findByBoardName(EXIST_BOARD_NAME),
                 boardDao.findTurnByBoardName(EXIST_BOARD_NAME), EXIST_BOARD_NAME);
         }
-        boardDao.deleteAllBoards();
-        runningPiecesDao.deleteAllPieces();
+        boardDao.deleteByBoardName(EXIST_BOARD_NAME);
+        runningPiecesDao.deleteByBoardName(EXIST_BOARD_NAME);
 
         Board board = Board.putPiecesOnPoint(Team.CHO, EXIST_BOARD_NAME);
         boardDao.saveBoard(board, LocalTime.now());
@@ -94,8 +94,8 @@ public class JanggiGame {
         TeamScore score = board.calculateScoreOfAllTeam();
         boardView.displayScoreBoard(score, board.decideWinner(WINNING_DECISION_TARGET));
 
-        boardDao.deleteAllBoards();
-        runningPiecesDao.deleteAllPieces();
+        boardDao.deleteByBoardName(EXIST_BOARD_NAME);
+        runningPiecesDao.deleteByBoardName(EXIST_BOARD_NAME);
     }
 
     private void handleMoveException(Runnable action) {

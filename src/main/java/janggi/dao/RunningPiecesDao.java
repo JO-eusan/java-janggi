@@ -2,14 +2,7 @@ package janggi.dao;
 
 import janggi.dao.connector.DBConnector;
 import janggi.game.team.Team;
-import janggi.piece.Byeong;
-import janggi.piece.Cha;
-import janggi.piece.Gung;
-import janggi.piece.Ma;
 import janggi.piece.Movable;
-import janggi.piece.Po;
-import janggi.piece.Sa;
-import janggi.piece.Sang;
 import janggi.piece.pieces.RunningPieces;
 import janggi.piece.type.PieceType;
 import janggi.point.Point;
@@ -126,9 +119,11 @@ public class RunningPiecesDao {
         }
     }
 
-    public void deleteAllPieces() {
-        String query = "DELETE FROM pieces";
+    public void deleteByBoardName(String boardName) {
+        String query = "DELETE FROM pieces WHERE board_name=?";
         try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
+            preparedStatement.setString(1, boardName);
+
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException(e);

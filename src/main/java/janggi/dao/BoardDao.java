@@ -83,9 +83,11 @@ public class BoardDao {
         }
     }
 
-    public void deleteAllBoards() {
-        String query = "DELETE FROM board";
+    public void deleteByBoardName(String boardName) {
+        String query = "DELETE FROM board WHERE board_name=?";
         try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
+            preparedStatement.setString(1, boardName);
+
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
