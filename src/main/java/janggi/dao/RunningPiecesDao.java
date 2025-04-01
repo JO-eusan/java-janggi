@@ -1,5 +1,6 @@
 package janggi.dao;
 
+import janggi.dao.connector.DBConnector;
 import janggi.game.team.Team;
 import janggi.piece.Byeong;
 import janggi.piece.Cha;
@@ -12,8 +13,6 @@ import janggi.piece.Sang;
 import janggi.piece.pieces.RunningPieces;
 import janggi.piece.type.PieceType;
 import janggi.point.Point;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,19 +22,10 @@ import java.util.Map.Entry;
 
 public class RunningPiecesDao {
 
-    private static final String SERVER = "localhost:13306";
-    private static final String DATABASE = "janggi";
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "sa";
-    private static final String PASSWORD = "password";
+    private final DBConnector connector;
 
-    public Connection getConnection() {
-        try {
-            return DriverManager.getConnection(
-                "jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
-        } catch (SQLException e) {
-            throw new RuntimeException("DB 연결 오류:" + e);
-        }
+    public RunningPiecesDao(DBConnector connector) {
+        this.connector = connector;
     }
 
     public void saveRunningPieces(String boardName, RunningPieces runningPieces) {
@@ -50,8 +40,7 @@ public class RunningPiecesDao {
     private void savePiece(String boardName, Movable piece, Point point) {
         String query = "INSERT INTO pieces "
             + "(board_name, type, team, point_row, point_column) VALUES(?, ?, ?, ?, ?)";
-        try (Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
             preparedStatement.setString(1, boardName);
             preparedStatement.setString(2, piece.getName());
             preparedStatement.setString(3, piece.getTeam().getText());
@@ -65,8 +54,7 @@ public class RunningPiecesDao {
 
     public RunningPieces findByBoardName(String boardName) {
         String query = "SELECT * FROM pieces WHERE board_name=?";
-        try (Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
             preparedStatement.setString(1, boardName);
 
             Map<Point, Movable> pieces = new HashMap<>();
@@ -108,8 +96,7 @@ public class RunningPiecesDao {
             + "WHERE board_name=? && type=? && team=? && point_row=? && point_column=?";
 
         Movable piece = runningPieces.findPieceByPoint(targetPoint);
-        try (Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
             preparedStatement.setInt(1, targetPoint.row());
             preparedStatement.setInt(2, targetPoint.column());
             preparedStatement.setString(3, boardName);
@@ -127,8 +114,7 @@ public class RunningPiecesDao {
         if (existByPoint(targetPoint)) {
             String query = "DELETE FROM pieces "
                 + "WHERE board_name=? && point_row=? && point_column=?";
-            try (Connection connection = getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
                 preparedStatement.setString(1, boardName);
                 preparedStatement.setInt(2, targetPoint.row());
                 preparedStatement.setInt(3, targetPoint.column());
@@ -142,8 +128,7 @@ public class RunningPiecesDao {
     private boolean existByPoint(Point point) {
         String query = "SELECT * FROM pieces "
             + "WHERE point_row=? && point_column=?";
-        try (Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
             preparedStatement.setInt(1, point.row());
             preparedStatement.setInt(2, point.column());
 
@@ -156,11 +141,14 @@ public class RunningPiecesDao {
 
     public void deleteAllPieces() {
         String query = "DELETE FROM pieces";
-        try (Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void closeConnector() {
+        connector.close();
     }
 }

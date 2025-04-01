@@ -3,6 +3,7 @@ package janggi.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import janggi.dao.connector.MySQLConnector;
 import janggi.piece.pieces.InitialPieces;
 import janggi.piece.pieces.RunningPieces;
 import janggi.point.Point;
@@ -13,19 +14,13 @@ import org.junit.jupiter.api.Test;
 public class RunningPiecesTest {
 
     private RunningPieces runningPieces;
-    private final RunningPiecesDao runningPiecesDao = new RunningPiecesDao();
+    private final RunningPiecesDao runningPiecesDao = new RunningPiecesDao(MySQLConnector.createConnection());
 
     @BeforeEach
     void initTestBoard() {
         runningPieces = InitialPieces.getAllPieces();
         runningPiecesDao.deleteAllPieces();
         runningPiecesDao.saveRunningPieces("testBoard", runningPieces);
-    }
-
-    @Test
-    @DisplayName("데이터베이스 연결 테스트")
-    void connection() {
-        assertThat(runningPiecesDao.getConnection()).isNotNull();
     }
 
     @Test

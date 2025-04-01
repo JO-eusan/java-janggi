@@ -3,6 +3,7 @@ package janggi.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import janggi.dao.connector.MySQLConnector;
 import janggi.game.Board;
 import janggi.game.team.Team;
 import java.time.LocalTime;
@@ -13,19 +14,13 @@ import org.junit.jupiter.api.Test;
 public class BoardDaoTest {
 
     private Board board;
-    private final BoardDao boardDao = new BoardDao();
+    private final BoardDao boardDao = new BoardDao(MySQLConnector.createConnection());
 
     @BeforeEach
     void initTestBoard() {
         board = Board.putPiecesOnPoint(Team.CHO, "testBoard");
         boardDao.deleteAllBoards();
         boardDao.saveBoard(board, LocalTime.now());
-    }
-
-    @Test
-    @DisplayName("데이터베이스 연결 테스트")
-    void connection() {
-        assertThat(boardDao.getConnection()).isNotNull();
     }
 
     @Test
@@ -47,7 +42,7 @@ public class BoardDaoTest {
     @DisplayName("시작 시간 반환 테스트")
     public void findStartTime() {
         String boardName = "testBoard";
-        assertThat(boardDao.findStartTimeByBoardName(boardName)).isEqualTo(0);
+        assertThat(boardDao.findStartTimeByBoardName(boardName)).isInstanceOf(LocalTime.class);
     }
 
     @Test

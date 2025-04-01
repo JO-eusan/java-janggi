@@ -1,9 +1,8 @@
 package janggi.dao;
 
+import janggi.dao.connector.DBConnector;
 import janggi.game.Board;
 import janggi.game.team.Team;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,25 +10,15 @@ import java.time.LocalTime;
 
 public class BoardDao {
 
-    private static final String SERVER = "localhost:13306";
-    private static final String DATABASE = "janggi";
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "sa";
-    private static final String PASSWORD = "password";
+    private final DBConnector connector;
 
-    public Connection getConnection() {
-        try {
-            return DriverManager.getConnection(
-                "jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
-        } catch (SQLException e) {
-            throw new RuntimeException("DB 연결 오류:" + e);
-        }
+    public BoardDao(DBConnector connector) {
+        this.connector = connector;
     }
 
     public void saveBoard(Board board, LocalTime startTime) {
-        String query = "INSERT INTO (board_name, turn, start_time) board VALUES(?, ?, ?)";
-        try (Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        String query = "INSERT INTO board (board_name, turn, start_time) VALUES(?, ?, ?)";
+        try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
             preparedStatement.setString(1, board.getBoardName());
             preparedStatement.setString(2, board.getTurn().getText());
             preparedStatement.setString(3, startTime.toString());
@@ -41,8 +30,7 @@ public class BoardDao {
 
     public Team findTurnByBoardName(String boardName) {
         String query = "SELECT * FROM board WHERE board_name=?";
-        try (Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
             preparedStatement.setString(1, boardName);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -57,8 +45,7 @@ public class BoardDao {
 
     public LocalTime findStartTimeByBoardName(String boardName) {
         String query = "SELECT * FROM board WHERE board_name=?";
-        try (Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
             preparedStatement.setString(1, boardName);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -73,8 +60,7 @@ public class BoardDao {
 
     public boolean existByBoardName(String boardName) {
         String query = "SELECT * FROM board WHERE board_name=?";
-        try (Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
             preparedStatement.setString(1, boardName);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -88,8 +74,7 @@ public class BoardDao {
         String query = "UPDATE board "
             + "SET turn=? "
             + "WHERE board_name=?";
-        try (Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
             preparedStatement.setString(1, board.getTurn().getText());
             preparedStatement.setString(2, board.getBoardName());
             preparedStatement.executeUpdate();
@@ -100,11 +85,14 @@ public class BoardDao {
 
     public void deleteAllBoards() {
         String query = "DELETE FROM board";
-        try (Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void closeConnector() {
+        connector.close();
     }
 }
