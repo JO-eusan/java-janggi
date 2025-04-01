@@ -53,7 +53,7 @@ public class RunningPiecesDao {
     }
 
     public RunningPieces findByBoardName(String boardName) {
-        String query = "SELECT * FROM pieces WHERE board_name=?";
+        String query = "SELECT type, team, point_row, point_column FROM pieces WHERE board_name=?";
         try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
             preparedStatement.setString(1, boardName);
 
@@ -126,14 +126,14 @@ public class RunningPiecesDao {
     }
 
     private boolean existByPoint(Point point) {
-        String query = "SELECT * FROM pieces "
-            + "WHERE point_row=? && point_column=?";
+        String query = "SELECT EXISTS (SELECT piece_id FROM pieces "
+            + "WHERE point_row=? && point_column=?)";
         try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
             preparedStatement.setInt(1, point.row());
             preparedStatement.setInt(2, point.column());
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            return resultSet.next();
+            return resultSet.next() && resultSet.getBoolean(1);
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }

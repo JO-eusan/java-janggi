@@ -29,7 +29,7 @@ public class BoardDao {
     }
 
     public Team findTurnByBoardName(String boardName) {
-        String query = "SELECT * FROM board WHERE board_name=?";
+        String query = "SELECT turn FROM board WHERE board_name=?";
         try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
             preparedStatement.setString(1, boardName);
 
@@ -44,7 +44,7 @@ public class BoardDao {
     }
 
     public LocalTime findStartTimeByBoardName(String boardName) {
-        String query = "SELECT * FROM board WHERE board_name=?";
+        String query = "SELECT start_time FROM board WHERE board_name=?";
         try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
             preparedStatement.setString(1, boardName);
 
@@ -59,12 +59,12 @@ public class BoardDao {
     }
 
     public boolean existByBoardName(String boardName) {
-        String query = "SELECT * FROM board WHERE board_name=?";
+        String query = "SELECT EXISTS (SELECT board_name FROM board WHERE board_name=?)";
         try (PreparedStatement preparedStatement = connector.handleQuery(query)) {
             preparedStatement.setString(1, boardName);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            return resultSet.next();
+            return resultSet.next() && resultSet.getBoolean(1);
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
