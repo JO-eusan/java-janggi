@@ -1,46 +1,32 @@
 package janggi.piece;
 
 import janggi.game.team.Team;
+import janggi.piece.rule.MoveRule;
+import janggi.piece.rule.UnboundDistanceMoveRule;
 import janggi.piece.type.PieceType;
-import janggi.point.Direction;
-import janggi.point.PalacePoints;
 import janggi.point.Point;
-import janggi.point.PointDistance;
 import janggi.point.Route;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Cha implements Movable {
 
     private final PieceType type;
+    private final MoveRule rule;
     private final Team team;
 
     public Cha(Team team) {
         this.type = PieceType.CHA;
+        this.rule = new UnboundDistanceMoveRule();
         this.team = team;
     }
 
     @Override
     public boolean isInMovingRange(Point startPoint, Point targetPoint) {
-        if (PalacePoints.isInPalaceWithMovableDiagonal(startPoint)
-            && PalacePoints.isInPalaceWithMovableDiagonal(targetPoint)) {
-            return true;
-        }
-        return startPoint.isSameRow(targetPoint) || startPoint.isSameColumn(targetPoint);
+        return rule.canMove(startPoint, targetPoint);
     }
 
     @Override
     public Route findRoute(Point startPoint, Point targetPoint) {
-        List<Point> route = new ArrayList<>();
-        Direction direction = Direction.calculateDirections(startPoint, targetPoint);
-        PointDistance distance = PointDistance.calculate(startPoint, targetPoint);
-
-        Point pointer = startPoint;
-        for (int i = 0; i < (int) distance.getDistance() - 1; i++) {
-            pointer = direction.move(pointer);
-            route.add(pointer);
-        }
-        return new Route(route, targetPoint);
+        return rule.searchRoute(startPoint, targetPoint);
     }
 
     @Override

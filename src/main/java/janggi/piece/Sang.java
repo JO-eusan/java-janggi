@@ -1,13 +1,11 @@
 package janggi.piece;
 
 import janggi.game.team.Team;
+import janggi.piece.rule.DiagonalJumpMoveRule;
+import janggi.piece.rule.MoveRule;
 import janggi.piece.type.PieceType;
-import janggi.point.Direction;
 import janggi.point.Point;
-import janggi.point.PointDistance;
 import janggi.point.Route;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Sang implements Movable {
 
@@ -15,31 +13,23 @@ public class Sang implements Movable {
     private static final int DIAGONAL_COUNT = 2;
 
     private final PieceType type;
+    private final MoveRule rule;
     private final Team team;
 
     public Sang(Team team) {
         this.type = PieceType.SANG;
+        this.rule = new DiagonalJumpMoveRule(MOVE_DISTANCE, DIAGONAL_COUNT);
         this.team = team;
     }
 
     @Override
     public boolean isInMovingRange(Point startPoint, Point targetPoint) {
-        PointDistance distance = PointDistance.calculate(startPoint, targetPoint);
-
-        return distance.isSameWith(MOVE_DISTANCE);
+        return rule.canMove(startPoint, targetPoint);
     }
 
     @Override
     public Route findRoute(Point startPoint, Point targetPoint) {
-        List<Point> route = new ArrayList<>();
-        List<Direction> directions = Direction.calculateDirections(startPoint, targetPoint, DIAGONAL_COUNT);
-
-        Point pointer = startPoint;
-        for (Direction direction : directions) {
-            pointer = direction.move(pointer);
-            route.add(pointer);
-        }
-        return new Route(route, targetPoint);
+        return rule.searchRoute(startPoint, targetPoint);
     }
 
     @Override

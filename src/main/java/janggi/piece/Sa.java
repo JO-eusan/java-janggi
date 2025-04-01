@@ -1,45 +1,32 @@
 package janggi.piece;
 
 import janggi.game.team.Team;
+import janggi.piece.rule.MoveRule;
+import janggi.piece.rule.PalaceMoveRule;
 import janggi.piece.type.PieceType;
-import janggi.point.PalacePoints;
 import janggi.point.Point;
-import janggi.point.PointDistance;
 import janggi.point.Route;
-import java.util.List;
 
 public class Sa implements Movable {
 
-    private static final double CARDINAL_MOVE_DISTANCE = 1;
-    private static final double DIAGONAL_MOVE_DISTANCE = Math.sqrt(2);
-
     private final PieceType type;
+    private final MoveRule rule;
     private final Team team;
 
     public Sa(Team team) {
         this.type = PieceType.SA;
+        this.rule = new PalaceMoveRule(team);
         this.team = team;
     }
 
     @Override
     public boolean isInMovingRange(Point startPoint, Point targetPoint) {
-        PointDistance distance = PointDistance.calculate(startPoint, targetPoint);
-
-        if (PalacePoints.isOutOfPalaceRange(team, targetPoint)) {
-            return false;
-        }
-        if (PalacePoints.isInPalaceWithMovableCardinal(team, startPoint)) {
-            return distance.isSameWith(CARDINAL_MOVE_DISTANCE);
-        }
-        if (PalacePoints.isInPalaceWithMovableDiagonal(team, startPoint)) {
-            return distance.isLessAndEqualTo(DIAGONAL_MOVE_DISTANCE);
-        }
-        return false;
+        return rule.canMove(startPoint, targetPoint);
     }
 
     @Override
     public Route findRoute(Point startPoint, Point targetPoint) {
-        return new Route(List.of(), targetPoint);
+        return rule.searchRoute(startPoint, targetPoint);
     }
 
     @Override
